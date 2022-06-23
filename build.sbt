@@ -4,10 +4,14 @@ ThisBuild / scalaVersion     := "2.12.12"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "com.example"
 ThisBuild / organizationName := "example"
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
+ThisBuild / scalafixOnCompile := true
 
 lazy val root = (project in file("."))
   .settings(
     name := "MyOpenRTB",
+    scalacOptions += "-Ywarn-unused-import",
     libraryDependencies ++= Seq (
       scalaz,
       scalaTest % Test
