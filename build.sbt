@@ -8,7 +8,10 @@ ThisBuild / organizationName := "example"
 lazy val root = (project in file("."))
   .settings(
     name := "MyOpenRTB",
-    libraryDependencies += scalaTest % Test
+    libraryDependencies ++= Seq (
+      scalaz,
+      scalaTest % Test
+    )
   )
 
 // Uncomment the following for publishing to Sonatype.
