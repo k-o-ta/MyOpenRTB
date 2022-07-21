@@ -1,20 +1,33 @@
 import Dependencies._
 
-ThisBuild / scalaVersion     := "2.12.12"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.example"
+ThisBuild / scalaVersion := "2.12.12"
+ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / organization := "com.example"
 ThisBuild / organizationName := "example"
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 ThisBuild / scalafixOnCompile := true
 
+lazy val akkaHttpVersion = "10.1.10"
+lazy val akkaVersion = "2.5.23"
+
+
 lazy val root = (project in file("."))
   .settings(
     name := "MyOpenRTB",
     scalacOptions += "-Ywarn-unused-import",
-    libraryDependencies ++= Seq (
+    libraryDependencies ++= Seq(
       scalaz,
-      scalaTest % Test
+      scalaTest % Test,
+      akkaHttp,
+      akkaHttpSprayJson,
+      //      "com.typesafe.akka" %% "akka-actor-typed"         % akkaVersion,
+      akkaStream,
+      "ch.qos.logback" % "logback-classic" % "1.2.3",
+      akkaHttpTestKit,
+      //      "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion     % Test,
+      "org.scalatest" %% "scalatest" % "3.1.4" % Test
+
     )
   )
 
