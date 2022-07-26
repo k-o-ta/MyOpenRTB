@@ -16,7 +16,7 @@ import akka.stream.ActorMaterializer
 
 import scala.io.StdIn
 import akka.http.scaladsl.server.Route
-import infrastructure.{BidRequest, JsonSupport}
+import infrastructure.{BidRequest, BidResponse, JsonSupport}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
@@ -40,8 +40,8 @@ object Server extends App with JsonSupport {
       },
       path("bid") {
         post {
-          entity(as[BidRequest]) { bid =>
-            complete(BidRequest(s"${bid.id}"))
+          entity(as[BidRequest]) { bidRequest =>
+            complete(BidResponse(s"${bidRequest.id}"))
           }
         }
       }
