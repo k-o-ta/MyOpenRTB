@@ -53,10 +53,10 @@ object Server extends App with JsonSupport {
     Http().bindAndHandle(route, "localhost", 8080)
 
   println("hello world2")
-  //  StdIn.readLine() // let it run until user presses return
-  //  bindingFuture
-  //    .flatMap(_.unbind()) // trigger unbinding from the port
-  //    .onComplete(_ => system.terminate()) // and shutdown when done
+//  StdIn.readLine() // let it run until user presses return
+//  bindingFuture
+//    .flatMap(_.unbind()) // trigger unbinding from the port
+//    .onComplete(_ => system.terminate()) // and shutdown when done
   bindingFuture
     .onComplete {
       case Success(binding) =>

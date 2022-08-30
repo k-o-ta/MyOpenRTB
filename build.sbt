@@ -1,6 +1,6 @@
 import Dependencies._
 
-ThisBuild / scalaVersion := "2.12.12"
+ThisBuild / scalaVersion := "2.10.7"
 ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / organization := "com.example"
 ThisBuild / organizationName := "example"
@@ -28,15 +28,33 @@ lazy val root = (project in file("."))
       "org.scalatest" %% "scalatest" % "3.1.4" % Test
     )
   )
+lazy val core = (project in file("core"))
+  .settings(
+    name := "MyOpenRTBCore",
+    scalacOptions += "-Ywarn-unused-import",
+    libraryDependencies ++= Seq(
+      scalaz,
+      scalaTest % Test,
+      akkaHttp,
+      akkaHttpSprayJson,
+      //      "com.typesafe.akka" %% "akka-actor-typed"         % akkaVersion,
+      akkaStream,
+      "ch.qos.logback" % "logback-classic" % "1.2.3",
+      akkaHttpTestKit,
+      //      "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion     % Test,
+      "org.scalatest" %% "scalatest" % "3.1.4" % Test
+    )
+  )
 javaOptions in reStart += "-Xdebug"
-javaOptions in reStart += "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5050"
-Fork.java.fork(null, null)
+//javaOptions in reStart += "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5050"
+debugSettings := Some(new spray.revolver.DebugSettings(port = 5005, suspend = true))
+//Fork.java.fork(null, null)
 //reStartArgs := Seq("")
 //javaOptions := Seq(
 //  "-Xdebug",
 //  "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5050"
 //)
-//Revolver.enableDebugging(port = 5050, suspend = true)
+//Revolver.enableDebugging(port = 5005, suspend = true)
 //javaOptions := Seq(
 //  "-Xdebug",
 //  "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
