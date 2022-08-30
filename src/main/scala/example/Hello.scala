@@ -14,11 +14,11 @@ import akka.http.scaladsl.server.Directives.{
 }
 import akka.stream.ActorMaterializer
 
-import scala.io.StdIn
 import akka.http.scaladsl.server.Route
 import infrastructure.{BidRequest, BidResponse, JsonSupport}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
+import scala.util.{Failure, Success}
 
 object Server extends App with JsonSupport {
   implicit val system: ActorSystem = ActorSystem("my-system")
@@ -30,6 +30,8 @@ object Server extends App with JsonSupport {
     concat(
       path("hello") {
         get {
+          val foo = 3
+          system.log.info("foobar")
           complete(
             HttpEntity(
               ContentTypes.`text/html(UTF-8)`,
@@ -51,9 +53,21 @@ object Server extends App with JsonSupport {
     Http().bindAndHandle(route, "localhost", 8080)
 
   println("hello world2")
-  StdIn.readLine() // let it run until user presses return
+//  StdIn.readLine() // let it run until user presses return
+//  bindingFuture
+//    .flatMap(_.unbind()) // trigger unbinding from the port
+//    .onComplete(_ => system.terminate()) // and shutdown when done
   bindingFuture
-    .flatMap(_.unbind()) // trigger unbinding from the port
-    .onComplete(_ => system.terminate()) // and shutdown when done
-
+    .onComplete {
+      case Success(binding) =>
+        val address = binding.localAddress
+        system.log.info(
+          "Server online at http://{}:{}/",
+          address.getHostString,
+          address.getPort
+        )
+      case Failure(ex) =>
+        system.log.error("Failed to bind HTTP endpoint, terminating system", ex)
+        system.terminate()
+    }
 }

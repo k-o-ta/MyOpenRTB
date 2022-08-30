@@ -11,7 +11,6 @@ ThisBuild / scalafixOnCompile := true
 lazy val akkaHttpVersion = "10.1.10"
 lazy val akkaVersion = "2.5.23"
 
-
 lazy val root = (project in file("."))
   .settings(
     name := "MyOpenRTB",
@@ -27,10 +26,21 @@ lazy val root = (project in file("."))
       akkaHttpTestKit,
       //      "com.typesafe.akka" %% "akka-actor-testkit-typed" % akkaVersion     % Test,
       "org.scalatest" %% "scalatest" % "3.1.4" % Test
-
     )
   )
-
+javaOptions in reStart += "-Xdebug"
+javaOptions in reStart += "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5050"
+Fork.java.fork(null, null)
+//reStartArgs := Seq("")
+//javaOptions := Seq(
+//  "-Xdebug",
+//  "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5050"
+//)
+//Revolver.enableDebugging(port = 5050, suspend = true)
+//javaOptions := Seq(
+//  "-Xdebug",
+//  "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
+//)
 // Uncomment the following for publishing to Sonatype.
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for more detail.
 
